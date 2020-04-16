@@ -89,6 +89,7 @@
                             <a class="collapse-item" href="#">Input Barang</a>
                             <a class="collapse-item" href="#">Output Barang</a>
                             <a class="collapse-item" href="#">Stok Barang</a>
+                            <a class="collapse-item" href="#">Data Barang</a>
                         </div>
                     </div>
                 </li>

@@ -65,7 +65,7 @@
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Disini Grafik</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Stok Barang</h6>
                 </div>
                 <div class="card-body">
                   <h4 class="small font-weight-bold">Test 1 <span class="float-right">100%</span></h4>

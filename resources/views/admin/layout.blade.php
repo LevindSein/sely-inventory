@@ -11,7 +11,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>App Inventory</title>
+        <title>Inventory</title>
 
         <!-- Custom fonts for this template -->
         <link

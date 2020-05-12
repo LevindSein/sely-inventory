@@ -66,7 +66,7 @@
       <!-- Footer -->
       <footer class="container my-auto">
           <div class="copyright text-center text-gray-100 my-auto">
-            <span>Copyright &copy; Aplikasi Pengelola Tagihan</span>
+            <span>Copyright &copy; PT Kumpul Mas Abadi</span>
           </div>
       </footer>
       <!-- End of Footer -->

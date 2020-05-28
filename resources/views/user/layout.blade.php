@@ -80,7 +80,7 @@
                         data-target="#collapseBarang"
                         aria-expanded="true"
                         aria-controls="collapseBarang">
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-list"></i>
                         <span>Barang</span>
                     </a>
                     <div
@@ -89,56 +89,10 @@
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="{{url('showtambahbarang')}}">Tambah Barang</a>
-                            <a class="collapse-item" href="{{url('showdatabarang')}}">Data Barang</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Persediaan -->
-                <li class="nav-item">
-                    <a
-                        class="nav-link collapsed"
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#collapsePersediaan"
-                        aria-expanded="true"
-                        aria-controls="collapsePersediaan">
-                        <i class="fas fa-dolly-flatbed"></i>
-                        <span>Persediaan</span>
-                    </a>
-                    <div
-                        id="collapsePersediaan"
-                        class="collapse"
-                        aria-labelledby="headingUser"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Tambah Stok</a>
-                            <a class="collapse-item" href="#">Jual Barang</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Log -->
-                <li class="nav-item">
-                    <a
-                        class="nav-link collapsed"
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#collapseLog"
-                        aria-expanded="true"
-                        aria-controls="collapseLog">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Log Barang</span>
-                    </a>
-                    <div
-                        id="collapseLog"
-                        class="collapse"
-                        aria-labelledby="headingUser"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Log Input</a>
-                            <a class="collapse-item" href="#">Log Output</a>
+                            <a class="collapse-item" href="#">Input Barang</a>
+                            <a class="collapse-item" href="#">Output Barang</a>
+                            <a class="collapse-item" href="#">Stok Barang</a>
+                            <a class="collapse-item" href="#">Data Barang</a>
                         </div>
                     </div>
                 </li>
@@ -161,33 +115,9 @@
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Laporan Harian</a>
-                            <a class="collapse-item" href="#">Laporan Bulanan</a>
-                            <a class="collapse-item" href="#">Laporan Tahunan</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - User -->
-                <li class="nav-item">
-                    <a
-                        class="nav-link collapsed"
-                        href="#"
-                        data-toggle="collapse"
-                        data-target="#collapseUser"
-                        aria-expanded="true"
-                        aria-controls="collapseUser">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>User</span>
-                    </a>
-                    <div
-                        id="collapseUser"
-                        class="collapse"
-                        aria-labelledby="headingUser"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="{{url('showtambahuser')}}">Tambah User</a>
-                            <a class="collapse-item" href="{{url('showdatauser')}}">Data User</a>
+                            <a class="collapse-item" href="#">Flow Barang</a>
+                            <a class="collapse-item" href="#">Rekap Harian</a>
+                            <a class="collapse-item" href="#">Rekap Bulanan</a>
                         </div>
                     </div>
                 </li>
@@ -393,7 +323,7 @@
             <script>
                 $(document).ready(function () {
                     $(
-                        '#tableUser'
+                        '#table'
                     ).DataTable({
                         "processing": true,
                         "bProcessing":true,
@@ -410,23 +340,6 @@
                         "buttons": [
                     
                         ]
-                    });
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $(
-                        '#tableBarang'
-                    ).DataTable({
-                        "processing": true,
-                        "bProcessing":true,
-                        "language": {
-                            'loadingRecords': '&nbsp;',
-                            'processing': '<i class="fas fa-spinner"></i>'
-                        },
-                        "scrollX": true,
-                        "bSortable": false,
-                        "deferRender": true
                     });
                 });
             </script>

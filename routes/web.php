@@ -22,4 +22,18 @@ Route::post('storelogin','Auth\LoginController@storeLogin');
 Route::get('logout','Auth\LoginController@logoutUser');
 
 //Dashboard
-Route::get('showdashboard','dashboardController@dashboard');
+Route::get('showdashboard','dashboardController@dashboard')->name('showdashboard');
+
+//User
+Route::get('showdatauser','userController@showdatauser')->name('datauser');
+Route::get('hapususer/{id}','userController@hapusUser');
+Route::get('resetpass/{id}','userController@resetPass');
+
+Route::get('showtambahuser','userController@tambahUser');
+Route::post('storeuser','userController@storeUser');
+
+//Barang
+Route::get('showtambahbarang','barangController@tambahBarang');
+Route::post('storebarang','barangController@storeBarang');
+Route::get('hapusbarang/{id}','barangController@hapusBarang');
+Route::get('showdatabarang','barangController@dataBarang')->name('databarang');

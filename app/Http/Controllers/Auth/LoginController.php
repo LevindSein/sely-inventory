@@ -54,33 +54,25 @@ class LoginController extends Controller
     }
 
     public function storeLogin(Request $request){
+        Session::flush();
         $username = $request->get('username');
         $pass = md5($request->get('password'));
 
         $user = DB::table('user')
-        ->where('nama_user',$username)
+        ->where('username',$username)
         ->first();
 
-        if($user != null && $user->NAMA_USER == $username){
-            if($pass == $user->PASSWORD){
-                Session::put('username',$user->NAMA_USER);
-                Session::put('role',$user->ROLE);
-                Session::put('id_user',$user->ID_USER);
+        if($user != null && $user->username == $username){
+            if($pass == $user->password){
+                Session::put('username',$user->username);
+                Session::put('role',$user->role);
+                Session::put('id_user',$user->id_user);
                 Session::put('login',TRUE);
-                if($user->ROLE == "Super Admin"){
+                if($user->role == "super"){
                     return redirect()->route('showdashboard')->with('success','Login Berhasil');
                 }
-                else if($user->ROLE == "admin"){
-                    return redirect()->route('tagihanAdmin')->with('success','Login Berhasil');
-                }
-                else if($user->ROLE == "kasir"){
-                    return redirect()->route('lapTagihanKasir')->with('success','Login Berhasil');
-                }
-                else if($user->ROLE == "manajer"){
-                    return redirect()->route('showdashboardmanajer')->with('success','Login Berhasil');
-                }
-                else if($user->ROLE == "keuangan"){
-                    return redirect()->route('showpenerimaanharian')->with('success','Login Berhasil');
+                else if($user->role == "user"){
+                    return redirect()->route('showdashboard')->with('success','Login Berhasil');
                 }
                 else{
                     return redirect()->route('index')->with('error','Login Gagal Harap Hubungi Super Admin');    

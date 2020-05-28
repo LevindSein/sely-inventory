@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Session;
 class dashboardController extends Controller
 {
     public function dashboard(){
-        return view('admin.dashboard');
+        if(!Session::get('login')){
+            return redirect('login')->with('error','Silahkan Login Terlebih Dahulu');
+        }
+        else{
+            if(Session::get('role') == "super" || Session::get('role') == "user"){
+                return view('admin.dashboard');
+            }
+            else{
+                abort(403, 'Oops! Access Forbidden');
+            }
+        }
     }
 }

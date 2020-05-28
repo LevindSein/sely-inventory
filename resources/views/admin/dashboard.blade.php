@@ -1,4 +1,9 @@
-@extends('admin.layout')
+<?php
+    $role = Session::get('role');
+?>
+
+
+@extends( $role == 'super' ? 'admin.layout' : 'user.layout')
 @section('content')
         <!-- Begin Page Content -->
         <div class="container-fluid">

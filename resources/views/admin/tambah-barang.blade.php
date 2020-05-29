@@ -51,7 +51,7 @@
                     <option value="CUSTOM">Custom</option>
                   </select>
                 </div>
-                <input type="submit" value="Tambah Nasabah" class="btn btn-primary btn-user btn-block">
+                <input type="submit" value="Tambah Barang" class="btn btn-primary btn-user btn-block">
               </form>      
             </div>
           </div>

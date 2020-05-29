@@ -37,3 +37,14 @@ Route::get('showtambahbarang','barangController@tambahBarang');
 Route::post('storebarang','barangController@storeBarang');
 Route::get('hapusbarang/{id}','barangController@hapusBarang');
 Route::get('showdatabarang','barangController@dataBarang')->name('databarang');
+
+//Log
+Route::get('showloginput','logController@logInput');
+Route::get('showlogoutput','logController@logOutput');
+Route::get('showlogdelete','logController@logDelete');
+
+//Laporan
+Route::get('showlaporanbulanan','laporanController@laporanBulanan');
+Route::get('showlaporantahunan','laporanController@laporanTahunan');
+Route::get('laporanbulan/{bln}','laporanController@bulan');
+Route::get('laporantahun/{thn}','laporanController@tahun');

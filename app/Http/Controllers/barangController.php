@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Barang;
+use App\HapusBarang;
+use App\LogBarang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Redirector;
 use Exception;
@@ -79,8 +81,31 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
+                $dataset = DB::table('data_barang')->where('id_barang',$id)->first();
+                $kodeBarang = $dataset->kode_barang;
+                $namaBarang = $dataset->nama_barang;
+                $jenisBarang = $dataset->jenis_barang;
+                $satuanBarang = $dataset->satuan;
+                $jumlahBarang = $dataset->jumlah_barang;
+                $username = Session::get('username');
+
+                $data = new HapusBarang([
+                    'kode_barang'=>$kodeBarang,
+                    'nama_barang'=>$namaBarang,
+                    'jenis_barang'=>$jenisBarang,
+                    'satuan'=>$satuanBarang,
+                    'jumlah_barang'=>$jumlahBarang,
+                    'session'=>$username
+                ]);
+                $data->save();
+
+                DB::table('barang_baik')->where('id_barang',$id)->delete();
+                DB::table('barang_warning')->where('id_barang',$id)->delete();
+                DB::table('barang_exp')->where('id_barang',$id)->delete();
+                DB::table('log_barang')->where('id_barang',$id)->delete();
                 DB::table('data_barang')->where('id_barang',$id)->delete();
-                 return redirect()->route('databarang')->with('success','Barang Dihapus');
+
+                return redirect()->route('databarang')->with('success','Barang Dihapus');
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

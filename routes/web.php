@@ -53,3 +53,9 @@ Route::get('laporantahun/{thn}','laporanController@tahun');
 //Persediaan
 Route::get('showtambahstok','persediaanController@tambahStok');
 Route::get('showjualstok','persediaanController@jualStok');
+
+Route::post('tambah/stok','persediaanController@tambah');
+Route::post('storetambahstok/{id}','persediaanController@storeTambah');
+
+Route::get('jual/stok','persediaanController@jual');
+Route::post('storejualstok/{id}','persediaanController@storeJual');

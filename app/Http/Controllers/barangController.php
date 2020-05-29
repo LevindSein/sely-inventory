@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Barang;
-use App\HapusBarang;
-use App\BarangExp;
+use DateTime;
+use DateInterval;
 use App\LogBarang;
+use App\Barang;
+use App\BarangWarning;
+use App\BarangBaik;
+use App\BarangExp;
+use App\HapusBarang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Redirector;
 use Exception;
@@ -52,7 +56,7 @@ class barangController extends Controller
                     'jumlah_barang'=>0
                 ]);
                 $data->save();
-                return redirect('showdatabarang')->with('success','Barang Ditambah ke Data Barang');
+                return redirect('showdatabarang')->with('success','Barang Ditambah');
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -66,6 +70,43 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
+                //Cek Barang Warning
+                $timezone = date_default_timezone_set('Asia/Jakarta');
+                $now = date("Y-m-d", time());
+
+                $warning = DB::table('barang_baik')
+                ->select('id_baik','id_barang','jumlah_baik','bulan_warning','exp')
+                ->get();
+
+                $expired = DB::table('barang_warning')
+                ->select('id_warning','id_barang','jumlah_warning','bulan_exp')
+                ->get();
+
+                foreach($warning as $war){
+                    if($now >= $war->bulan_warning && $now < $war->exp){
+                        $data = new BarangWarning([
+                            'id_barang'=>$war->id_barang,
+                            'jumlah_warning'=>$war->jumlah_baik,
+                            'bulan_exp'=>$war->exp
+                        ]);
+                        $data->save();
+        
+                        DB::table('barang_baik')->where('id_baik',$war->id_baik)->delete();
+                    }
+                }
+
+                foreach($expired as $ex){
+                    if($now >= $ex->bulan_exp){
+                        $data = new BarangExp([
+                            'id_barang'=>$ex->id_barang,
+                            'jumlah_exp'=>$ex->jumlah_warning
+                        ]);
+                        $data->save();
+        
+                        DB::table('barang_warning')->where('id_warning',$ex->id_warning)->delete();
+                    }
+                }
+
                 //Jumlah Stok
                 $id = DB::table('data_barang')
                 ->select('id_barang')
@@ -108,7 +149,7 @@ class barangController extends Controller
                 }
 
                 for($j=0;$j<$lenght;$j++){
-                    $total = $totalB[$j] + $totalW[$j] + $totalE[$j]; 
+                    $total = $totalB[$j] + $totalW[$j]; 
                     DB::table('data_barang')
                     ->where('id_barang', $id[$j]->id_barang)
                     ->update([
@@ -184,5 +225,26 @@ class barangController extends Controller
                 abort(403, 'Oops! Access Forbidden');
             }
         }
+    }
+
+    public function add_months($months, DateTime $dateObject) 
+    {
+        $next = new DateTime($dateObject->format('Y-m-d'));
+        $next->modify('last day of +'.$months.' month');
+
+        if($dateObject->format('d') > $next->format('d')) {
+            return $dateObject->diff($next);
+        } else {
+            return new DateInterval('P'.$months.'M');
+        }
+    }
+
+    public function endCycle($d1, $months)
+    {
+        $date = new DateTime($d1);
+        $newDate = $date->add($this->add_months($months, $date));
+        $dateReturned = $newDate->format('Y-m-d'); 
+
+        return $dateReturned;
     }
 }

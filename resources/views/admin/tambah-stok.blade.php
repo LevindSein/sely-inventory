@@ -18,7 +18,7 @@
               <h6 class="h-3 m-0 font-weight-bold text-primary">Tabel Tambah Stok</h6>
             </div>
             
-            <form id="action" name="action" action="#" method="POST">
+            <form id="action" name="action" action="{{url('tambah/stok')}}" method="POST">
             @csrf
             <div class="card-body">
               <div class="table-responsive">
@@ -37,7 +37,7 @@
                   @foreach($dataset as $d)
                     <tr>
                       <td class="text-center">
-                      <input type="checkbox" id="checkBox" name="check[]" value="0">
+                      <input type="checkbox" id="checkBox" name="check[]" value="{{$d->id_barang}}">
                       </td>
                       <td class="text-left">{{$d->kode_barang}}</td>
                       <td class="text-left">{{$d->nama_barang}}</td>

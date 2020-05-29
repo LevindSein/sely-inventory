@@ -36,6 +36,7 @@ Route::post('storeuser','userController@storeUser');
 Route::get('showtambahbarang','barangController@tambahBarang');
 Route::post('storebarang','barangController@storeBarang');
 Route::get('hapusbarang/{id}','barangController@hapusBarang');
+Route::get('resetbarang/{id}','barangController@resetBarang');
 Route::get('showdatabarang','barangController@dataBarang')->name('databarang');
 
 //Log
@@ -48,3 +49,7 @@ Route::get('showlaporanbulanan','laporanController@laporanBulanan');
 Route::get('showlaporantahunan','laporanController@laporanTahunan');
 Route::get('laporanbulan/{bln}','laporanController@bulan');
 Route::get('laporantahun/{thn}','laporanController@tahun');
+
+//Persediaan
+Route::get('showtambahstok','persediaanController@tambahStok');
+Route::get('showjualstok','persediaanController@jualStok');

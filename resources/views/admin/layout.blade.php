@@ -113,8 +113,8 @@
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Tambah Stok</a>
-                            <a class="collapse-item" href="#">Jual Barang</a>
+                            <a class="collapse-item" href="{{url('showtambahstok')}}">Tambah Stok</a>
+                            <a class="collapse-item" href="{{url('showjualstok')}}">Jual Stok</a>
                         </div>
                     </div>
                 </li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Barang;
 use App\HapusBarang;
+use App\BarangExp;
 use App\LogBarang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Redirector;
@@ -65,6 +66,56 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
+                //Jumlah Stok
+                $id = DB::table('data_barang')
+                ->select('id_barang')
+                ->get();
+                $lenght = $id->count();
+                
+                $totalB=array();
+                $totalW=array();
+                $totalE=array();
+                for($i=0;$i<$lenght;$i++){
+                    $barangBaik = DB::table('barang_baik')
+                    ->where('id_barang',$id[$i]->id_barang)
+                    ->select('jumlah_baik')
+                    ->get();
+                    $tb = 0;
+                    foreach($barangBaik as $b){
+                        $tb = $tb + $b->jumlah_baik;
+                    }
+                    $totalB[$i] = $tb;
+
+                    $barangWarning = DB::table('barang_warning')
+                    ->where('id_barang',$id[$i]->id_barang)
+                    ->select('jumlah_warning')
+                    ->get(); 
+                    $tw = 0;
+                    foreach($barangWarning as $w){
+                        $tw = $tw + $w->jumlah_warning;
+                    }
+                    $totalW[$i] = $tw;
+                    
+                    $barangExp = DB::table('barang_exp')
+                    ->where('id_barang',$id[$i]->id_barang)
+                    ->select('jumlah_exp')
+                    ->get(); 
+                    $te = 0;
+                    foreach($barangExp as $e){
+                        $te = $te + $e->jumlah_exp;
+                    }
+                    $totalE[$i] = $te;
+                }
+
+                for($j=0;$j<$lenght;$j++){
+                    $total = $totalB[$j] + $totalW[$j] + $totalE[$j]; 
+                    DB::table('data_barang')
+                    ->where('id_barang', $id[$j]->id_barang)
+                    ->update([
+                        'jumlah_barang'=>$total
+                    ]);
+                }
+
                 $dataset = DB::table('data_barang')
                 ->get();
                 return view('admin.data-barang',['dataset'=>$dataset]);
@@ -106,6 +157,28 @@ class barangController extends Controller
                 DB::table('data_barang')->where('id_barang',$id)->delete();
 
                 return redirect()->route('databarang')->with('success','Barang Dihapus');
+            }
+            else{
+                abort(403, 'Oops! Access Forbidden');
+            }
+        }
+    }
+
+    public function resetBarang($id){
+        if(!Session::get('login')){
+            return redirect('login')->with('error','Silahkan Login Terlebih Dahulu');
+        }
+        else{
+            if(Session::get('role') == "super"){
+                
+                DB::table('barang_exp')->where('id_barang',$id)->delete();
+                $data = new BarangExp([
+                    'id_barang'=>$id,
+                    'jumlah_exp'=>0,
+                ]);
+                $data->save();
+
+                return redirect()->route('databarang')->with('success','Barang Kedaluwarsa di Reset');
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

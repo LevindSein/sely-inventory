@@ -137,8 +137,7 @@
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="{{url('showloginput')}}">Log Input</a>
-                            <a class="collapse-item" href="{{url('showlogoutput')}}">Log Output</a>
+                            <a class="collapse-item" href="{{url('showlogpersediaan')}}">Log Persediaan</a>
                             <a class="collapse-item" href="{{url('showlogdelete')}}">Log Delete</a>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 
 class logController extends Controller
 {
-    public function logInput(){
+    public function logStok(){
         if(!Session::get('login')){
             return redirect('login')->with('error','Silahkan Login Terlebih Dahulu');
         }
@@ -21,31 +21,10 @@ class logController extends Controller
                 $dataset = DB::table('log_barang')
                 ->leftJoin('data_barang','log_barang.id_barang','=','data_barang.id_barang')
                 ->select('data_barang.kode_barang','data_barang.nama_barang','data_barang.jenis_barang',
-                         'data_barang.satuan','log_barang.jumlah_log','log_barang.session','log_barang.created_at')
-                ->where('status',0)
+                         'data_barang.satuan','log_barang.jumlah_log','log_barang.session','log_barang.status',
+                         'log_barang.tujuan','log_barang.created_at')
                 ->get();
-                return view('admin.data-input',['dataset'=>$dataset]);
-            }
-            else{
-                abort(403, 'Oops! Access Forbidden');
-            }
-        }
-    }
-
-    public function logOutput(){
-        if(!Session::get('login')){
-            return redirect('login')->with('error','Silahkan Login Terlebih Dahulu');
-        }
-        else{
-            if(Session::get('role') == "super"){
-                $dataset = DB::table('log_barang')
-                ->leftJoin('data_barang','log_barang.id_barang','=','data_barang.id_barang')
-                ->select('data_barang.kode_barang','data_barang.nama_barang','data_barang.jenis_barang',
-                         'data_barang.satuan','log_barang.jumlah_log','log_barang.tujuan',
-                         'log_barang.session','log_barang.created_at')
-                ->where('status',1)
-                ->get();
-                return view('admin.data-output',['dataset'=>$dataset]);
+                return view('admin.data-log',['dataset'=>$dataset]);
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

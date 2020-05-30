@@ -18,7 +18,7 @@
               <h6 class="h-3 m-0 font-weight-bold text-primary">Tabel Jual Stok</h6>
             </div>
             
-            <form id="action" name="action" action="{{url('jual/stok')}}" method="GET">
+            <form id="action" name="action" action="{{url('jual/stok')}}" method="POST">
             @csrf
             <div class="card-body">
               <div class="table-responsive">
@@ -50,7 +50,7 @@
               </div>
             </div>
             <div style="margin-left:35px;margin-bottom:35px;">
-                <input name="button" type="submit" class="btn btn-primary" value="Jual">
+                <input name="button" type="submit" class="btn btn-primary" value="Jual Stok">
             </div>
             </form>
             <!-- End Tables -->

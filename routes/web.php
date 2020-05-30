@@ -40,8 +40,7 @@ Route::get('resetbarang/{id}','barangController@resetBarang');
 Route::get('showdatabarang','barangController@dataBarang')->name('databarang');
 
 //Log
-Route::get('showloginput','logController@logInput');
-Route::get('showlogoutput','logController@logOutput');
+Route::get('showlogpersediaan','logController@logStok');
 Route::get('showlogdelete','logController@logDelete');
 
 //Laporan
@@ -57,5 +56,5 @@ Route::get('showjualstok','persediaanController@jualStok');
 Route::post('tambah/stok','persediaanController@tambah');
 Route::post('storetambahstok/{id}','persediaanController@storeTambah');
 
-Route::get('jual/stok','persediaanController@jual');
+Route::post('jual/stok','persediaanController@jual');
 Route::post('storejualstok/{id}','persediaanController@storeJual');

@@ -29,8 +29,9 @@
 
                   <tbody>
                   @foreach($dataset as $d)
+                    <?php $tgl = date("M Y",strtotime($d->bulan_log))?>
                     <tr>
-                      <td class="text-center">{{$d->bulan_log}}</td>
+                      <td class="text-center">{{$tgl}}</td>
                       <td class="text-center">
                           <a href="{{url('laporanbulan',[$d->bulan_log])}}" target="_blank" class="d-none d-sm-inline-block btn btn-primary btn-sm shadow-sm"><i
                             class="fas fa- fa-sm text-white-50"></i>Print</a>

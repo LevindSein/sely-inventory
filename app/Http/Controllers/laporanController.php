@@ -53,7 +53,16 @@ class laporanController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                return view('admin.print-bulan');
+                $barangId = DB::table('log_barang')
+                ->where('bulan_log',$bln)
+                ->select('id_barang')
+                ->groupby('id_barang')
+                ->get();
+
+                $bulan = DB::table('log_barang')
+                ->where('bulan_log',$bln)
+                ->first();
+                return view('admin.print-bulan',['barangId'=>$barangId,'bulan'=>$bulan]);
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -67,7 +76,16 @@ class laporanController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                return view('admin.print-tahun');
+                $barangId = DB::table('log_barang')
+                ->where('tahun_log',$thn)
+                ->select('id_barang')
+                ->groupby('id_barang')
+                ->get();
+
+                $tahun = DB::table('log_barang')
+                ->where('tahun_log',$thn)
+                ->first();
+                return view('admin.print-tahun',['barangId'=>$barangId,'tahun'=>$tahun]);
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

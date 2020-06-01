@@ -17,11 +17,15 @@ class userController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-
-                $dataset = DB::table('user')
-                ->select('id_user','username','role')
-                ->get();
-                return view('admin.data-user',['dataset'=>$dataset]);
+                try{
+                    $dataset = DB::table('user')
+                    ->select('id_user','username','role')
+                    ->get();
+                    return view('admin.data-user',['dataset'=>$dataset]);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -35,9 +39,13 @@ class userController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-
-                DB::table('user')->where('id_user',$id)->delete();
-                 return redirect()->route('datauser')->with('Success','Berhasil Dihapus');
+                try{
+                    DB::table('user')->where('id_user',$id)->delete();
+                    return redirect()->route('datauser')->with('Success','Berhasil Dihapus');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -51,16 +59,20 @@ class userController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
+                try{
+                    $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ1234567890!$%&?#');
+                    $password = substr($random, 0, 7);
 
-                $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ1234567890!$%&?#');
-                $password = substr($random, 0, 7);
-
-                $pass = md5($password);
-        
-                DB::table('user')->where('id_user', $id)->update([
-                    'password'=>$pass
-                ]);
-                return redirect()->route('datauser')->with('pass','Password anda = '.$password);
+                    $pass = md5($password);
+            
+                    DB::table('user')->where('id_user', $id)->update([
+                        'password'=>$pass
+                    ]);
+                    return redirect()->route('datauser')->with('pass','Password anda = '.$password);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -74,7 +86,12 @@ class userController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                return view('admin.tambah-user');
+                try{
+                    return view('admin.tambah-user');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -88,20 +105,25 @@ class userController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                $username = $request->get('username');
-                $role = 'user';
-                $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ1234567890!$%&?#');
-                $password = substr($random, 0, 7);
+                try{
+                    $username = $request->get('username');
+                    $role = 'user';
+                    $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ1234567890!$%&?#');
+                    $password = substr($random, 0, 7);
 
-                $pass = md5($password);
-        
-                $data = new User([
-                    'username'=>$username,
-                    'password'=>$pass,
-                    'role'=>$role
-                ]);
-                $data->save();
-                return redirect()->route('datauser')->with('pass','Password anda = '.$password);
+                    $pass = md5($password);
+            
+                    $data = new User([
+                        'username'=>$username,
+                        'password'=>$pass,
+                        'role'=>$role
+                    ]);
+                    $data->save();
+                    return redirect()->route('datauser')->with('pass','Password anda = '.$password);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

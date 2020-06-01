@@ -18,13 +18,18 @@ class logController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                $dataset = DB::table('log_barang')
-                ->leftJoin('data_barang','log_barang.id_barang','=','data_barang.id_barang')
-                ->select('data_barang.kode_barang','data_barang.nama_barang','data_barang.jenis_barang',
-                         'data_barang.satuan','log_barang.jumlah_log','log_barang.session','log_barang.status',
-                         'log_barang.tujuan','log_barang.created_at')
-                ->get();
-                return view('admin.data-log',['dataset'=>$dataset]);
+                try{
+                    $dataset = DB::table('log_barang')
+                    ->leftJoin('data_barang','log_barang.id_barang','=','data_barang.id_barang')
+                    ->select('data_barang.kode_barang','data_barang.nama_barang','data_barang.jenis_barang',
+                            'data_barang.satuan','log_barang.jumlah_log','log_barang.session','log_barang.status',
+                            'log_barang.tujuan','log_barang.created_at')
+                    ->get();
+                    return view('admin.data-log',['dataset'=>$dataset]);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -38,9 +43,14 @@ class logController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                $dataset = DB::table('delete_barang')
-                ->get();
-                return view('admin.data-delete',['dataset'=>$dataset]);
+                try{
+                    $dataset = DB::table('delete_barang')
+                    ->get();
+                    return view('admin.data-delete',['dataset'=>$dataset]);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

@@ -21,30 +21,35 @@ class dashboardController extends Controller
         }
         else{
             if(Session::get('role') == "super" || Session::get('role') == "user"){
-                //PieChart
-                $pieBaik = DB::table('barang_baik')
-                ->select(DB::raw('SUM(jumlah_baik) as b_Baik'))
-                ->get();
-                $b_Baik = 0;
-                foreach($pieBaik as $b){
-                    $b_Baik = $b->b_Baik;
-                }
-                $pieWarning = DB::table('barang_warning')
-                ->select(DB::raw('SUM(jumlah_warning) as b_Warning'))
-                ->get();
-                $b_Warning = 0;
-                foreach($pieWarning as $w){
-                    $b_Warning = $w->b_Warning;
-                }
-                $pieExp = DB::table('barang_exp')
-                ->select(DB::raw('SUM(jumlah_exp) as b_Exp'))
-                ->get();
-                $b_Exp = 0;
-                foreach($pieExp as $e){
-                    $b_Exp = $e->b_Exp;
-                }
+                try{
+                    //PieChart
+                    $pieBaik = DB::table('barang_baik')
+                    ->select(DB::raw('SUM(jumlah_baik) as b_Baik'))
+                    ->get();
+                    $b_Baik = 0;
+                    foreach($pieBaik as $b){
+                        $b_Baik = $b->b_Baik;
+                    }
+                    $pieWarning = DB::table('barang_warning')
+                    ->select(DB::raw('SUM(jumlah_warning) as b_Warning'))
+                    ->get();
+                    $b_Warning = 0;
+                    foreach($pieWarning as $w){
+                        $b_Warning = $w->b_Warning;
+                    }
+                    $pieExp = DB::table('barang_exp')
+                    ->select(DB::raw('SUM(jumlah_exp) as b_Exp'))
+                    ->get();
+                    $b_Exp = 0;
+                    foreach($pieExp as $e){
+                        $b_Exp = $e->b_Exp;
+                    }
 
-                return view('admin.dashboard',['b_Baik'=>$b_Baik,'b_Warning'=>$b_Warning,'b_Exp'=>$b_Exp]);
+                    return view('admin.dashboard',['b_Baik'=>$b_Baik,'b_Warning'=>$b_Warning,'b_Exp'=>$b_Exp]);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

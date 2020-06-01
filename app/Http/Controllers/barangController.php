@@ -24,7 +24,12 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                return view('admin.tambah-barang');
+                try{
+                    return view('admin.tambah-barang');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -38,25 +43,30 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                $random = str_shuffle('ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890');
-                $kode = substr($random, 0, 7);
+                try{
+                    $random = str_shuffle('ABCDEFGHJKLMNOPQRSTUVWXYZ1234567890');
+                    $kode = substr($random, 0, 7);
 
-                $kodeBarang = "KMA-".$kode;
-                $namaBarang = $request->get('namaBarang');
-                $jenisBarang = $request->get('jenisBarang');
-                $masaSimpan = $request->get('masaSimpan');
-                $satuanBarang = $request->get('satuanBarang');
+                    $kodeBarang = "KMA-".$kode;
+                    $namaBarang = $request->get('namaBarang');
+                    $jenisBarang = $request->get('jenisBarang');
+                    $masaSimpan = $request->get('masaSimpan');
+                    $satuanBarang = $request->get('satuanBarang');
 
-                $data = new Barang([
-                    'kode_barang'=>$kodeBarang,
-                    'nama_barang'=>$namaBarang,
-                    'jenis_barang'=>$jenisBarang,
-                    'masa_simpan'=>$masaSimpan,
-                    'satuan'=>$satuanBarang,
-                    'jumlah_barang'=>0
-                ]);
-                $data->save();
-                return redirect('showdatabarang')->with('success','Barang Ditambah');
+                    $data = new Barang([
+                        'kode_barang'=>$kodeBarang,
+                        'nama_barang'=>$namaBarang,
+                        'jenis_barang'=>$jenisBarang,
+                        'masa_simpan'=>$masaSimpan,
+                        'satuan'=>$satuanBarang,
+                        'jumlah_barang'=>0
+                    ]);
+                    $data->save();
+                    return redirect('showdatabarang')->with('success','Barang Ditambah');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -70,96 +80,101 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super" || Session::get('role') == "user"){
-                //Cek Barang Warning
-                $timezone = date_default_timezone_set('Asia/Jakarta');
-                $now = date("Y-m-d", time());
+                try{
+                    //Cek Barang Warning
+                    $timezone = date_default_timezone_set('Asia/Jakarta');
+                    $now = date("Y-m-d", time());
 
-                $warning = DB::table('barang_baik')
-                ->select('id_baik','id_barang','jumlah_baik','bulan_warning','exp')
-                ->get();
-
-                $expired = DB::table('barang_warning')
-                ->select('id_warning','id_barang','jumlah_warning','bulan_exp')
-                ->get();
-
-                foreach($warning as $war){
-                    if($now >= $war->bulan_warning && $now < $war->exp){
-                        $data = new BarangWarning([
-                            'id_barang'=>$war->id_barang,
-                            'jumlah_warning'=>$war->jumlah_baik,
-                            'bulan_exp'=>$war->exp
-                        ]);
-                        $data->save();
-        
-                        DB::table('barang_baik')->where('id_baik',$war->id_baik)->delete();
-                    }
-                }
-
-                foreach($expired as $ex){
-                    if($now >= $ex->bulan_exp){
-                        $data = new BarangExp([
-                            'id_barang'=>$ex->id_barang,
-                            'jumlah_exp'=>$ex->jumlah_warning
-                        ]);
-                        $data->save();
-        
-                        DB::table('barang_warning')->where('id_warning',$ex->id_warning)->delete();
-                    }
-                }
-
-                //Jumlah Stok
-                $id = DB::table('data_barang')
-                ->select('id_barang')
-                ->get();
-                $lenght = $id->count();
-                
-                $totalB=array();
-                $totalW=array();
-                $totalE=array();
-                for($i=0;$i<$lenght;$i++){
-                    $barangBaik = DB::table('barang_baik')
-                    ->where('id_barang',$id[$i]->id_barang)
-                    ->select('jumlah_baik')
+                    $warning = DB::table('barang_baik')
+                    ->select('id_baik','id_barang','jumlah_baik','bulan_warning','exp')
                     ->get();
-                    $tb = 0;
-                    foreach($barangBaik as $b){
-                        $tb = $tb + $b->jumlah_baik;
-                    }
-                    $totalB[$i] = $tb;
 
-                    $barangWarning = DB::table('barang_warning')
-                    ->where('id_barang',$id[$i]->id_barang)
-                    ->select('jumlah_warning')
-                    ->get(); 
-                    $tw = 0;
-                    foreach($barangWarning as $w){
-                        $tw = $tw + $w->jumlah_warning;
+                    $expired = DB::table('barang_warning')
+                    ->select('id_warning','id_barang','jumlah_warning','bulan_exp')
+                    ->get();
+
+                    foreach($warning as $war){
+                        if($now >= $war->bulan_warning && $now < $war->exp){
+                            $data = new BarangWarning([
+                                'id_barang'=>$war->id_barang,
+                                'jumlah_warning'=>$war->jumlah_baik,
+                                'bulan_exp'=>$war->exp
+                            ]);
+                            $data->save();
+            
+                            DB::table('barang_baik')->where('id_baik',$war->id_baik)->delete();
+                        }
                     }
-                    $totalW[$i] = $tw;
+
+                    foreach($expired as $ex){
+                        if($now >= $ex->bulan_exp){
+                            $data = new BarangExp([
+                                'id_barang'=>$ex->id_barang,
+                                'jumlah_exp'=>$ex->jumlah_warning
+                            ]);
+                            $data->save();
+            
+                            DB::table('barang_warning')->where('id_warning',$ex->id_warning)->delete();
+                        }
+                    }
+
+                    //Jumlah Stok
+                    $id = DB::table('data_barang')
+                    ->select('id_barang')
+                    ->get();
+                    $lenght = $id->count();
                     
-                    $barangExp = DB::table('barang_exp')
-                    ->where('id_barang',$id[$i]->id_barang)
-                    ->select('jumlah_exp')
-                    ->get(); 
-                    $te = 0;
-                    foreach($barangExp as $e){
-                        $te = $te + $e->jumlah_exp;
+                    $totalB=array();
+                    $totalW=array();
+                    $totalE=array();
+                    for($i=0;$i<$lenght;$i++){
+                        $barangBaik = DB::table('barang_baik')
+                        ->where('id_barang',$id[$i]->id_barang)
+                        ->select('jumlah_baik')
+                        ->get();
+                        $tb = 0;
+                        foreach($barangBaik as $b){
+                            $tb = $tb + $b->jumlah_baik;
+                        }
+                        $totalB[$i] = $tb;
+
+                        $barangWarning = DB::table('barang_warning')
+                        ->where('id_barang',$id[$i]->id_barang)
+                        ->select('jumlah_warning')
+                        ->get(); 
+                        $tw = 0;
+                        foreach($barangWarning as $w){
+                            $tw = $tw + $w->jumlah_warning;
+                        }
+                        $totalW[$i] = $tw;
+                        
+                        $barangExp = DB::table('barang_exp')
+                        ->where('id_barang',$id[$i]->id_barang)
+                        ->select('jumlah_exp')
+                        ->get(); 
+                        $te = 0;
+                        foreach($barangExp as $e){
+                            $te = $te + $e->jumlah_exp;
+                        }
+                        $totalE[$i] = $te;
                     }
-                    $totalE[$i] = $te;
-                }
 
-                for($j=0;$j<$lenght;$j++){
-                    $total = $totalB[$j] + $totalW[$j]; 
-                    DB::table('data_barang')
-                    ->where('id_barang', $id[$j]->id_barang)
-                    ->update([
-                        'jumlah_barang'=>$total
-                    ]);
-                }
+                    for($j=0;$j<$lenght;$j++){
+                        $total = $totalB[$j] + $totalW[$j]; 
+                        DB::table('data_barang')
+                        ->where('id_barang', $id[$j]->id_barang)
+                        ->update([
+                            'jumlah_barang'=>$total
+                        ]);
+                    }
 
-                $dataset = DB::table('data_barang')
-                ->get();
-                return view('admin.data-barang',['dataset'=>$dataset]);
+                    $dataset = DB::table('data_barang')
+                    ->get();
+                    return view('admin.data-barang',['dataset'=>$dataset]);
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -173,31 +188,36 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                $dataset = DB::table('data_barang')->where('id_barang',$id)->first();
-                $kodeBarang = $dataset->kode_barang;
-                $namaBarang = $dataset->nama_barang;
-                $jenisBarang = $dataset->jenis_barang;
-                $satuanBarang = $dataset->satuan;
-                $jumlahBarang = $dataset->jumlah_barang;
-                $username = Session::get('username');
+                try{
+                    $dataset = DB::table('data_barang')->where('id_barang',$id)->first();
+                    $kodeBarang = $dataset->kode_barang;
+                    $namaBarang = $dataset->nama_barang;
+                    $jenisBarang = $dataset->jenis_barang;
+                    $satuanBarang = $dataset->satuan;
+                    $jumlahBarang = $dataset->jumlah_barang;
+                    $username = Session::get('username');
 
-                $data = new HapusBarang([
-                    'kode_barang'=>$kodeBarang,
-                    'nama_barang'=>$namaBarang,
-                    'jenis_barang'=>$jenisBarang,
-                    'satuan'=>$satuanBarang,
-                    'jumlah_barang'=>$jumlahBarang,
-                    'session'=>$username
-                ]);
-                $data->save();
+                    $data = new HapusBarang([
+                        'kode_barang'=>$kodeBarang,
+                        'nama_barang'=>$namaBarang,
+                        'jenis_barang'=>$jenisBarang,
+                        'satuan'=>$satuanBarang,
+                        'jumlah_barang'=>$jumlahBarang,
+                        'session'=>$username
+                    ]);
+                    $data->save();
 
-                DB::table('barang_baik')->where('id_barang',$id)->delete();
-                DB::table('barang_warning')->where('id_barang',$id)->delete();
-                DB::table('barang_exp')->where('id_barang',$id)->delete();
-                DB::table('log_barang')->where('id_barang',$id)->delete();
-                DB::table('data_barang')->where('id_barang',$id)->delete();
+                    DB::table('barang_baik')->where('id_barang',$id)->delete();
+                    DB::table('barang_warning')->where('id_barang',$id)->delete();
+                    DB::table('barang_exp')->where('id_barang',$id)->delete();
+                    DB::table('log_barang')->where('id_barang',$id)->delete();
+                    DB::table('data_barang')->where('id_barang',$id)->delete();
 
-                return redirect()->route('databarang')->with('success','Barang Dihapus');
+                    return redirect()->route('databarang')->with('success','Barang Dihapus');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');
@@ -211,15 +231,19 @@ class barangController extends Controller
         }
         else{
             if(Session::get('role') == "super"){
-                
-                DB::table('barang_exp')->where('id_barang',$id)->delete();
-                $data = new BarangExp([
-                    'id_barang'=>$id,
-                    'jumlah_exp'=>0,
-                ]);
-                $data->save();
+                try{
+                    DB::table('barang_exp')->where('id_barang',$id)->delete();
+                    $data = new BarangExp([
+                        'id_barang'=>$id,
+                        'jumlah_exp'=>0,
+                    ]);
+                    $data->save();
 
-                return redirect()->route('databarang')->with('success','Barang Kedaluwarsa di Reset');
+                    return redirect()->route('databarang')->with('success','Barang Kedaluwarsa di Reset');
+                }
+                catch(\Exception $e){
+                    return redirect('showdashboard')->with('error','Kesalahan Sistem');
+                }
             }
             else{
                 abort(403, 'Oops! Access Forbidden');

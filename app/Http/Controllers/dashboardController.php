@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Redirector;
 use Exception;
 use Illuminate\Support\Facades\Session;
-use DateTime;
-use DateInterval;
-use App\BarangWarning;
-use App\BarangBaik;
-use App\BarangExp;
 
 class dashboardController extends Controller
 {

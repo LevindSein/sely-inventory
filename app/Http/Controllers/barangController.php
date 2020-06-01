@@ -69,7 +69,7 @@ class barangController extends Controller
             return redirect('login')->with('error','Silahkan Login Terlebih Dahulu');
         }
         else{
-            if(Session::get('role') == "super"){
+            if(Session::get('role') == "super" || Session::get('role') == "user"){
                 //Cek Barang Warning
                 $timezone = date_default_timezone_set('Asia/Jakarta');
                 $now = date("Y-m-d", time());

@@ -80,7 +80,7 @@
                         data-target="#collapseBarang"
                         aria-expanded="true"
                         aria-controls="collapseBarang">
-                        <i class="fas fa-list"></i>
+                        <i class="fas fa-plus"></i>
                         <span>Barang</span>
                     </a>
                     <div
@@ -89,35 +89,31 @@
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Input Barang</a>
-                            <a class="collapse-item" href="#">Output Barang</a>
-                            <a class="collapse-item" href="#">Stok Barang</a>
-                            <a class="collapse-item" href="#">Data Barang</a>
+                            <a class="collapse-item" href="{{url('showdatabarang')}}">Data Barang</a>
                         </div>
                     </div>
                 </li>
 
-                <!-- Nav Item - Laporan -->
+                <!-- Nav Item - Persediaan -->
                 <li class="nav-item">
                     <a
                         class="nav-link collapsed"
                         href="#"
                         data-toggle="collapse"
-                        data-target="#collapseLaporan"
+                        data-target="#collapsePersediaan"
                         aria-expanded="true"
-                        aria-controls="collapseLaporan">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Laporan</span>
+                        aria-controls="collapsePersediaan">
+                        <i class="fas fa-dolly-flatbed"></i>
+                        <span>Persediaan</span>
                     </a>
                     <div
-                        id="collapseLaporan"
+                        id="collapsePersediaan"
                         class="collapse"
                         aria-labelledby="headingUser"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <a class="collapse-item" href="#">Flow Barang</a>
-                            <a class="collapse-item" href="#">Rekap Harian</a>
-                            <a class="collapse-item" href="#">Rekap Bulanan</a>
+                            <a class="collapse-item" href="{{url('showtambahstok')}}">Tambah Stok</a>
+                            <a class="collapse-item" href="{{url('showjualstok')}}">Jual Stok</a>
                         </div>
                     </div>
                 </li>
@@ -323,7 +319,7 @@
             <script>
                 $(document).ready(function () {
                     $(
-                        '#table'
+                        '#tableUser'
                     ).DataTable({
                         "processing": true,
                         "bProcessing":true,
@@ -340,6 +336,23 @@
                         "buttons": [
                     
                         ]
+                    });
+                });
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $(
+                        '#tableBarang'
+                    ).DataTable({
+                        "processing": true,
+                        "bProcessing":true,
+                        "language": {
+                            'loadingRecords': '&nbsp;',
+                            'processing': '<i class="fas fa-spinner"></i>'
+                        },
+                        "scrollX": true,
+                        "bSortable": false,
+                        "deferRender": true
                     });
                 });
             </script>

@@ -34,8 +34,8 @@
                       <th rowspan="2">Satuan</th>
                       <th colspan="3">Kondisi</th>
                       <th rowspan="2">Stok</th>
-                      <th rowspan="2">Kedaluwarsa</th>
-                      <th rowspan="2">Barang</th>
+                      <th rowspan="2" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>Kedaluwarsa</th>
+                      <th rowspan="2" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>Barang</th>
                     </tr>
                     <tr>
                       <th>Baik</th>
@@ -102,11 +102,11 @@
                         {{$jumExp}}
                       @endif</td>
                       <td>{{$d->jumlah_barang}}</td>
-                      <td class="text-center">
+                      <td class="text-center" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>
                           <a href="{{url('resetbarang',[$d->id_barang])}}" class="d-none d-sm-inline-block btn btn-danger btn-sm shadow-sm"><i
                               class="fas fa- fa-sm text-white-50"></i>Reset</a>
                       </td>
-                      <td class="text-center">
+                      <td class="text-center" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>
                           <a href="{{url('hapusbarang',[$d->id_barang])}}" class="d-none d-sm-inline-block btn btn-danger btn-sm shadow-sm"><i
                               class="fas fa- fa-sm text-white-50"></i>Hapus</a>
                       </td>

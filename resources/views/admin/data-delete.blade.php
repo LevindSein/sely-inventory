@@ -5,6 +5,7 @@
 
 @extends( $role == 'super' ? 'admin.layout' : 'user.layout')
 @section('content')
+        <title>Barang Dihapus</title>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">

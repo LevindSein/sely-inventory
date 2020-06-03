@@ -5,6 +5,8 @@
 
 @extends( $role == 'super' ? 'admin.layout' : 'user.layout')
 @section('content')
+        
+        <title>Dashboard</title>
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
@@ -97,7 +99,7 @@ var myPieChart = new Chart(ctx, {
           // get the data label and data value to display
           // convert the data value to local string so it uses a comma seperated number
           var dataLabel = data.labels[tooltipItem.index];
-          var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+          var value = " : " + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
 
           // make this isn't a multi-line label (e.g. [["label 1 - line 1, "line 2, ], [etc...]])
           if (Chart.helpers.isArray(dataLabel)) {

@@ -14,7 +14,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Inventory</title>
+        
 
         <!-- Custom fonts for this template -->
         <link

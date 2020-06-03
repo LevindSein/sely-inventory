@@ -21,14 +21,13 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="tableBarang" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="tableLog" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Time</th>
                       <th>Kode</th>
                       <th>Nama</th>
                       <th>Jenis</th>
-                      <th>Satuan</th>
                       <th>Jumlah</th>
                       <th>Tujuan</th>
                       <th>User</th>
@@ -50,12 +49,9 @@
                       <td class="text-center"
                       <?php if($d->status == 0) { ?> style="color:green;" <?php } ?>
                       <?php if($d->status == 1) { ?> style="color:red;" <?php } ?>>{{$d->jenis_barang}}</td>
-                      <td class="text-center"
-                      <?php if($d->status == 0) { ?> style="color:green;" <?php } ?>
-                      <?php if($d->status == 1) { ?> style="color:red;" <?php } ?>>{{$d->satuan}}</td>
                       <td
                       <?php if($d->status == 0) { ?> style="color:green;" <?php } ?>
-                      <?php if($d->status == 1) { ?> style="color:red;" <?php } ?>>{{$d->jumlah_log}}</td>
+                      <?php if($d->status == 1) { ?> style="color:red;" <?php } ?>>{{$d->jumlah_log}} {{$d->satuan}}</td>
                       <td class="text-left"
                       <?php if($d->status == 0) { ?> style="color:green;" <?php } ?>
                       <?php if($d->status == 1) { ?> style="color:red;" <?php } ?>>{{$d->tujuan}}</td>

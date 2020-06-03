@@ -22,7 +22,7 @@
               @csrf
               @foreach($dataset as $d)
                 <div class="form-group">
-                  {{$d->kode_barang}} {{$d->nama_barang}} {{$d->jenis_barang}} (Stok : {{$d->jumlah_barang}})
+                  {{$d->kode_barang}} {{$d->nama_barang}} {{$d->jenis_barang}} (Stok : {{$d->jumlah_barang}} {{$d->satuan}})
                   <input required name="stok[]" type="number" placeholder="{{$d->satuan}}" class="form-control form-control-user">
                 </div>
                 <div class="form-group">

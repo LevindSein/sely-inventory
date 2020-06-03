@@ -32,7 +32,6 @@ use Illuminate\Support\Facades\DB;
                 <th rowspan="2">Nama</th>
                 <th rowspan="2">Jenis</th>
                 <th rowspan="2">Masa Simpan</th>
-                <th rowspan="2">Satuan</th>
                 <th colspan="3">Kondisi</th>
                 <th rowspan="2">Stok</th>
                 <th rowspan="2" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>Kedaluwarsa</th>
@@ -83,7 +82,6 @@ use Illuminate\Support\Facades\DB;
                 <td class="text-left">{{$d->nama_barang}}</td>
                 <td class="text-center">{{$d->jenis_barang}}</td>
                 <td class="text-center">{{$d->masa_simpan}} bln</td>
-                <td class="text-center">{{$d->satuan}}</td>
                 <td style="color:green;">
                 @if($jumBaik == Null)
                   0
@@ -102,7 +100,7 @@ use Illuminate\Support\Facades\DB;
                 @else
                   {{$jumExp}}
                 @endif</td>
-                <td>{{$d->jumlah_barang}}</td>
+                <td>{{$d->jumlah_barang}} {{$d->satuan}}</td>
                 <td class="text-center" <?php if($role == "user") { ?> style="display:none;" <?php } ?>>
                     <a href="{{url('resetbarang',[$d->id_barang])}}" class="d-none d-sm-inline-block btn btn-danger btn-sm shadow-sm"><i
                         class="fas fa- fa-sm text-white-50"></i>Reset</a>

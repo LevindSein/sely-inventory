@@ -43,7 +43,7 @@
                       <td class="text-left">{{$d->kode_barang}}</td>
                       <td class="text-left">{{$d->nama_barang}}</td>
                       <td class="text-center">{{$d->jenis_barang}}</td>
-                      <td>{{$d->jumlah_barang}}</td>
+                      <td>{{$d->jumlah_barang}} {{$d->satuan}}</td>
                     </tr>
                   @endforeach
                   </tbody>

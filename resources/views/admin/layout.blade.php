@@ -425,7 +425,26 @@
                         },
                         "scrollX": true,
                         "bSortable": false,
-                        "deferRender": true
+                        "deferRender": true,
+                    });
+                });
+            </script>
+            
+            <script>
+                $(document).ready(function () {
+                    $(
+                        '#tableLog'
+                    ).DataTable({
+                        "processing": true,
+                        "bProcessing":true,
+                        "language": {
+                            'loadingRecords': '&nbsp;',
+                            'processing': '<i class="fas fa-spinner"></i>'
+                        },
+                        "scrollX": true,
+                        "bSortable": false,
+                        "deferRender": true,
+                        "order": [[ 0, "desc" ]]
                     });
                 });
             </script>

@@ -29,7 +29,6 @@
                       <th>Kode</th>
                       <th>Nama</th>
                       <th>Jenis</th>
-                      <th>Satuan</th>
                       <th>Jumlah</th>
                       <th>User</th>
                     </tr>
@@ -45,8 +44,7 @@
                       <td class="text-center">{{$d->kode_barang}}</td>
                       <td class="text-left">{{$d->nama_barang}}</td>
                       <td class="text-center">{{$d->jenis_barang}}</td>
-                      <td class="text-center">{{$d->satuan}}</td>
-                      <td>{{$d->jumlah_barang}}</td>
+                      <td>{{$d->jumlah_barang}} {{$d->satuan}}</td>
                       <td class="text-left">{{$d->session}}</td>
                     </tr>
                   @endforeach
